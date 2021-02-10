@@ -21,13 +21,17 @@ router.put("/api/workouts/:id", function(req, res){
     }, {
         $push:{
             exercises: req.body,
-            $inc: {totalDuration: req.body.duration}
+            totalDuration: req.body.duration
         }
     }).then(function(results){
         res.json(results)
     })
 })
 
-
+router.get("/api/workouts/range", function(req, res){
+    db.Workout.find().then(function(results){
+        res.json(results)
+    })
+})
 
 module.exports = router
