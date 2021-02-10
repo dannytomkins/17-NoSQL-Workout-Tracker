@@ -7,6 +7,7 @@ router.get("/api/workouts", function(req, res){
         res.json(results)
     })
 })
+
 router.post("/api/workouts", function(req, res){
     db.Workout.create(req.body).then(function(results){
         res.json(results)
@@ -15,15 +16,18 @@ router.post("/api/workouts", function(req, res){
 
 router.put("/api/workouts/:id", function(req, res){
     const id = req.params.id
-    db.Workout.update({
+    db.Workout.updateOne({
         _id: id
     }, {
         $push:{
-            exercises: req.body
+            exercises: req.body,
+            $inc: {totalDuration: req.body.duration}
         }
     }).then(function(results){
         res.json(results)
     })
 })
+
+
 
 module.exports = router
